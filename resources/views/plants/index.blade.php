@@ -8,12 +8,17 @@
     <h1 class="font-weight-bold text-primary">
         <i class="fas fa-industry mr-2"></i> Plant Management
     </h1>
+     <div class="btn-group">
     <button id="addBtn" class="btn btn-primary shadow-sm px-3">
         <i class="fa fa-plus mr-1"></i> Add Plant
     </button>
     <button id="importBtn" class="btn btn-outline-light shadow-sm px-3 ml-2" data-toggle="modal" data-target="#importModal">
         <i class="fa fa-file-import mr-1"></i> Import
-    </button>
+    </button>&nbsp;
+       <a href="{{ route('plant.export') }}" class="btn btn-sm btn-success">
+                <i class="fas fa-file-excel mr-1"></i> Export Excel
+            </a>
+            </div>
 </div>
 <hr class="mt-2 mb-4 border-primary">
 <div id="alertBox">
@@ -31,9 +36,7 @@
     <div class="card-header bg-gradient-primary text-white d-flex justify-content-between align-items-center py-2">
         <h5 class="mb-0"><i class="fas fa-industry mr-2"></i> Plant List</h5>
         <div class="btn-group">
-            <a href="{{ route('plant.export') }}" class="btn btn-sm btn-success">
-                <i class="fas fa-file-excel mr-1"></i> Export Excel
-            </a>
+         
         </div>
     </div>
     <div class="card-body p-3">
