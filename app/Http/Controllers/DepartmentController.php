@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DepartmentRequest;
 use App\Models\Department;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\DepartmentImport;
+use App\Exports\DepartmentExport;
 
 class DepartmentController extends Controller
 {
@@ -13,7 +16,7 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        return response()->json(Department::all());//
+        return response()->json(Department::all()); //
     }
 
     /**
@@ -54,7 +57,23 @@ class DepartmentController extends Controller
         return response()->json(['message' => 'Department deleted successfully']);
     }
 
-    public function webIndex(){
+    public function webIndex()
+    {
         return view('departments.index');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv,txt'
+        ]);
+
+        Excel::import(new DepartmentImport(), $request->file('file'));
+        return back()->with('success', 'Department data imported successfully!');
+    }
+
+    public function downloadExport()
+    {
+        return Excel::download(new DepartmentExport(), 'departments_export.xlsx');
     }
 }

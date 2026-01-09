@@ -4,6 +4,9 @@ namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\PlantImport;
+use App\Exports\PlantExport;
 
 class PlantController extends Controller
 {
@@ -13,6 +16,31 @@ class PlantController extends Controller
     public function index()
     {
         return view('plants/index');
+    }
+
+    /**
+     * Import plants from uploaded file (CSV / XLSX)
+     */
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => ['required', 'file', 'mimes:xlsx,xls,csv,txt'],
+        ]);
+
+        try {
+            Excel::import(new PlantImport(), $request->file('file'));
+            return back()->with('success', 'Plant data imported successfully!');
+        } catch (\Exception $e) {
+            return back()->withErrors(['file' => 'Import failed: ' . $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Export plants as an Excel file.
+     */
+    public function downloadTemplate()
+    {
+        return Excel::download(new PlantExport(), 'plants_export.xlsx');
     }
 
     /**
